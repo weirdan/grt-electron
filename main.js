@@ -1,4 +1,5 @@
 const electron = require('electron')
+const express = require('express');
 // Module to control application life.
 const app = electron.app
 // Module to create native browser window.
@@ -11,15 +12,25 @@ const url = require('url')
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow
 
+// start express server
+const server = express();
+server.use(express.static('html'));
+server.listen(9999);
+
 function createWindow () {
   // Create the browser window.
   mainWindow = new BrowserWindow({width: 800, height: 600})
 
   // and load the index.html of the app.
   mainWindow.loadURL(url.format({
-    pathname: path.join(__dirname, 'index.html'),
-    protocol: 'file:',
-    slashes: true
+	  protocol: 'http:',
+	  hostname: 'localhost',
+	  port: 9999,
+	  pathname: '/index.html'
+	
+//    pathname: path.join(__dirname, 'index.html'),
+//    protocol: 'file:',
+//    slashes: true
   }))
 
   // Open the DevTools.
